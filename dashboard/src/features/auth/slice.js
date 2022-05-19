@@ -7,9 +7,22 @@ const userSlice = createSlice({
     loading: false,
     isLoggedIn: false,
     errorVal: false,
+    registerSuccess: false,
     //verifyPending: false
   },
   reducers: {
+    registerRequest: () => {},
+    registerPending: () => ({ user: null, loading: true, registerSuccess: false, isLoggedIn: false }),
+    registerSuccess: () => ({
+      registerSuccess: true,
+    }),
+    registerFailure: () => ({
+      user: null,
+      loading: false,
+      isLoggedIn: false,
+      registerSuccess: false,
+      errorVal: true,
+    }),
     loginRequest: () => {},
     loginPending: () => ({ user: null, loading: true, isLoggedIn: false }),
     loginSuccess: (state, { payload: user }) => ({
@@ -33,6 +46,15 @@ const userSlice = createSlice({
       };
     },
     verifyFailure: () => {},
+    refreshTokenRequest: () => {},
+    refreshTokenPending: () => ({ user: null, loading: true, isLoggedIn: false }),
+    refreshTokenSuccess: (state, { payload: user }) => ({
+      user,
+      loading: false,
+      isLoggedIn: true,
+      errorVal: false,
+    }),
+    refreshTokenFailure: () => ({ user: null, loading: false, isLoggedIn: false }),
   },
 });
 

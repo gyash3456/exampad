@@ -7,9 +7,22 @@ const LOGIN_TIMEOUT_SEC = 5;
 
 export const userSagas = [
   takeLatest(actions.loginRequest.type, userLoginSaga),
-  // takeLatest(actions.logoutRequest.type, userLogoutSaga),
-  // takeLatest(actions.verifyRequest.type, userVerifySaga),
+  takeLatest(actions.refreshTokenRequest.type, refreshUserTokenSaga),
+  takeLatest(actions.logoutRequest.type, userLogoutSaga),
+  takeLatest(actions.registerRequest.type, registerSaga),
 ];
+
+function* registerSaga({ payload }) {
+  try {
+    yield put(actions.registerPending());
+
+    yield call(authService.register, payload);
+    yield put(actions.registerSuccess());
+  } catch (e) {
+    console.log(e);
+    yield put(actions.registerFailure());
+  }
+}
 
 function* userLoginSaga({ payload }) {
   try {
@@ -29,10 +42,10 @@ function* userLoginSaga({ payload }) {
   }
 }
 
-// function* userLogoutSaga() {
-//   localStorage.removeItem("account");
-//   yield put(actions.logoutSuccess());
-// }
+function* userLogoutSaga() {
+  yield call(authService.logout);
+  yield put(actions.logoutSuccess());
+}
 
 // function* userVerifySaga({ payload }) {
 //   try {
@@ -59,3 +72,21 @@ function* userLoginSaga({ payload }) {
 //     yield put(notificationsActions.setMessage({ type: "error", message: e.message }));
 //   }
 // }
+
+function* refreshUserTokenSaga({ payload }) {
+  try {
+    yield put(actions.refreshTokenPending());
+    const { user, timeout } = yield race({
+      user: call(authService.refreshtoken, payload),
+      timeout: delay(LOGIN_TIMEOUT_SEC * 1000),
+    });
+    if (timeout) {
+      throw new Error("Login timeout, check your network connection.");
+    } else {
+      yield put(actions.refreshTokenSuccess(user));
+    }
+  } catch (e) {
+    console.log("Exception in userLoginSaga");
+    yield put(actions.refreshTokenFailure());
+  }
+}

@@ -1,7 +1,9 @@
-import React, { Suspense } from "react";
+import React, { Suspense, useCallback, useEffect } from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { RedirectAs404 } from "./utils/Utils";
 import PrivateRoute from "./route/PrivateRoute";
+import { useDispatch, useSelector } from "react-redux";
+import { actions } from "./features/auth/slice";
 
 import Layout from "./layout/Index";
 
@@ -18,36 +20,54 @@ import Register from "./pages/auth/Register";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import Success from "./pages/auth/Success";
 import InvoicePrint from "./pages/pre-built/invoice/InvoicePrint";
+import Loader from "./pages/components/Loader";
 
 const App = () => {
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.user);
+
+  const verifyUser = useCallback(() => {
+    dispatch(actions.refreshTokenRequest());
+    // call refreshToken every 5 minutes to renew the authentication token.
+    setTimeout(verifyUser, 5 * 60 * 1000);
+  }, []);
+
+  useEffect(() => {
+    verifyUser();
+  }, [verifyUser]);
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
     <Suspense fallback={<div />}>
       <BrowserRouter>
         <Routes>
           {/* Auth Pages */}
-          <Route exact path={`${process.env.PUBLIC_URL}/auth-success`} element={<Success />}></Route>
-          <Route exact path={`${process.env.PUBLIC_URL}/auth-reset`} element={<ForgotPassword />}></Route>
-          <Route exact path={`${process.env.PUBLIC_URL}/auth-register`} element={<Register />}></Route>
-          <Route exact path={`${process.env.PUBLIC_URL}/auth-login`} element={<Login />}></Route>
+          <Route exact path={`${process.env.PUBLIC_URL}/auth-success`} element={<Success />} />
+          <Route exact path={`${process.env.PUBLIC_URL}/auth-reset`} element={<ForgotPassword />} />
+          <Route exact path={`${process.env.PUBLIC_URL}/auth-register`} element={<Register />} />
+          <Route exact path={`${process.env.PUBLIC_URL}/auth-login`} element={<Login />} />
 
           {/* Print Pages */}
-          <Route exact path={`${process.env.PUBLIC_URL}/invoice-print/:id`} element={<InvoicePrint />}></Route>
+          <Route exact path={`${process.env.PUBLIC_URL}/invoice-print/:id`} element={<InvoicePrint />} />
 
           {/* Helper pages */}
-          <Route exact path={`${process.env.PUBLIC_URL}/auths/terms`} element={<Terms />}></Route>
-          <Route exact path={`${process.env.PUBLIC_URL}/auths/faq`} element={<Faq />}></Route>
+          <Route exact path={`${process.env.PUBLIC_URL}/auths/terms`} element={<Terms />} />
+          <Route exact path={`${process.env.PUBLIC_URL}/auths/faq`} element={<Faq />} />
 
-          <Route exact path={`${process.env.PUBLIC_URL}/invoice-print`} element={<InvoicePrint />}></Route>
+          <Route exact path={`${process.env.PUBLIC_URL}/invoice-print`} element={<InvoicePrint />} />
 
           {/*Error Pages*/}
-          <Route exact path={`${process.env.PUBLIC_URL}/errors/404-classic`} element={<Error404Classic />}></Route>
-          <Route exact path={`${process.env.PUBLIC_URL}/errors/504-modern`} element={<Error504Modern />}></Route>
-          <Route exact path={`${process.env.PUBLIC_URL}/errors/404-modern`} element={<Error404Modern />}></Route>
-          <Route exact path={`${process.env.PUBLIC_URL}/errors/504-classic`} element={<Error504Classic />}></Route>
+          <Route exact path={`${process.env.PUBLIC_URL}/errors/404-classic`} element={<Error404Classic />} />
+          <Route exact path={`${process.env.PUBLIC_URL}/errors/504-modern`} element={<Error504Modern />} />
+          <Route exact path={`${process.env.PUBLIC_URL}/errors/404-modern`} element={<Error404Modern />} />
+          <Route exact path={`${process.env.PUBLIC_URL}/errors/504-classic`} element={<Error504Classic />} />
 
           {/*Main Routes*/}
           <Route
-            path="/"
+            path="*"
             name="Admin"
             element={
               <PrivateRoute>
@@ -55,7 +75,7 @@ const App = () => {
               </PrivateRoute>
             }
           />
-          <Route element={<RedirectAs404 />}></Route>
+          <Route element={<RedirectAs404 />} />
         </Routes>
       </BrowserRouter>
     </Suspense>

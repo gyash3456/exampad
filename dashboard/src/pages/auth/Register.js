@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Logo from "../../images/logo.png";
 import LogoDark from "../../images/logo-dark.png";
 import PageContainer from "../../layout/page-container/PageContainer";
@@ -14,19 +14,33 @@ import {
   Icon,
   PreviewCard,
 } from "../../components/Component";
-import { Spinner, FormGroup } from "reactstrap";
-import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Spinner, FormGroup, Alert } from "reactstrap";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
-const Register = ({ history }) => {
+import { actions } from "../../features/auth/slice";
+
+const Register = () => {
   const [passState, setPassState] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const { errors, register, handleSubmit } = useForm();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
 
-  const handleFormSubmit = () => {
-    setLoading(true);
-    setTimeout(() => history.push(`${process.env.PUBLIC_URL}/auth-success`), 2000);
+  const dispatch = useDispatch();
+  let navigate = useNavigate();
+
+  const formSubmitHandler = (e) => {
+    e.preventDefault();
+    dispatch(actions.registerRequest({ name, email, password }));
   };
+
+  const { registerSuccess, loading, errorVal } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (registerSuccess) {
+      navigate("/auth-success");
+    }
+  }, [registerSuccess]);
   return (
     <React.Fragment>
       <Head title="Register" />
@@ -47,7 +61,15 @@ const Register = ({ history }) => {
                 </BlockDes>
               </BlockContent>
             </BlockHead>
-            <form className="is-alter" onSubmit={handleSubmit(handleFormSubmit)}>
+            {errorVal && (
+              <div className="mb-3">
+                <Alert color="danger" className="alert-icon">
+                  {" "}
+                  <Icon name="alert-circle" /> Unable to Register with credentials{" "}
+                </Alert>
+              </div>
+            )}
+            <form className="is-alter" onSubmit={formSubmitHandler}>
               <FormGroup>
                 <label className="form-label" htmlFor="name">
                   Name
@@ -58,10 +80,9 @@ const Register = ({ history }) => {
                     id="name"
                     name="name"
                     placeholder="Enter your name"
-                    ref={register({ required: true })}
+                    onChange={(e) => setName(e.target.value)}
                     className="form-control-lg form-control"
                   />
-                  {errors.name && <p className="invalid">This field is required</p>}
                 </div>
               </FormGroup>
               <FormGroup>
@@ -76,17 +97,16 @@ const Register = ({ history }) => {
                     bssize="lg"
                     id="default-01"
                     name="email"
-                    ref={register({ required: true })}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="form-control-lg form-control"
                     placeholder="Enter your email address or username"
                   />
-                  {errors.email && <p className="invalid">This field is required</p>}
                 </div>
               </FormGroup>
               <FormGroup>
                 <div className="form-label-group">
                   <label className="form-label" htmlFor="password">
-                    Passcode
+                    Password
                   </label>
                 </div>
                 <div className="form-control-wrap">
@@ -105,12 +125,11 @@ const Register = ({ history }) => {
                   <input
                     type={passState ? "text" : "password"}
                     id="password"
-                    name="passcode"
-                    ref={register({ required: "This field is required" })}
-                    placeholder="Enter your passcode"
+                    name="password"
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter your password"
                     className={`form-control-lg form-control ${passState ? "is-hidden" : "is-shown"}`}
                   />
-                  {errors.passcode && <span className="invalid">{errors.passcode.message}</span>}
                 </div>
               </FormGroup>
               <FormGroup>

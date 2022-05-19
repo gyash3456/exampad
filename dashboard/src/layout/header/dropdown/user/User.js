@@ -3,13 +3,17 @@ import UserAvatar from "../../../../components/user/UserAvatar";
 import { DropdownToggle, DropdownMenu, Dropdown } from "reactstrap";
 import { Icon } from "../../../../components/Component";
 import { LinkList, LinkItem } from "../../../../components/links/Links";
+import { useDispatch, useSelector } from "react-redux";
+import { actions } from "../../../../features/auth/slice";
 
 const User = () => {
   const [open, setOpen] = useState(false);
   const toggle = () => setOpen((prevState) => !prevState);
 
+  const dispatch = useDispatch();
+
   const handleSignout = () => {
-    localStorage.removeItem("accessToken");
+    dispatch(actions.logoutRequest());
   };
 
   return (

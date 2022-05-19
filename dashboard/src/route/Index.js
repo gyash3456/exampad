@@ -5,9 +5,6 @@ import { UserContextProvider } from "../pages/pre-built/user-manage/UserContext"
 import { RedirectAs404 } from "../utils/Utils";
 
 import Homepage from "../pages/Homepage";
-import Crypto from "../pages/Crypto";
-import Analytics from "../pages/Analytics";
-import Invest from "../pages/Invest";
 
 import Component from "../pages/components/Index";
 import Accordian from "../pages/components/Accordions";
@@ -103,35 +100,31 @@ import TinymcePreview from "../pages/components/forms/rich-editor/TinymcePreview
 import KnobPreview from "../pages/components/charts/KnobPreview";
 import { FileManagerContextProvider } from "../pages/app/file-manager/FileManagerContext";
 
+import Users from "../pages/user/Users";
+import PostCreate from "../pages/blog/PostCreate";
+
 const Pages = () => {
   useLayoutEffect(() => {
     window.scrollTo(0, 0);
   });
-
   return (
     <Suspense fallback={<div />}>
       <Routes>
-        {/*Dashboards*/}
-        <Route exact path={`${process.env.PUBLIC_URL}/crypto`} component={Crypto}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/analytics`} component={Analytics}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/invest`} component={Invest}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/_blank`} component={Blank}></Route>
-
         {/*Pre-built Pages*/}
-        <Route exact path={`${process.env.PUBLIC_URL}/project-card`} component={ProjectCardPage}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/project-list`} component={ProjectListPage}></Route>
-        <Route //Context Api added
+        <Route exact path={`/posts`} element={<ProjectCardPage />} />
+        <Route exact path={`/new-post`} element={<PostCreate />} />
+        <Route
           exact
-          path={`${process.env.PUBLIC_URL}/user-list-regular`}
-          render={() => (
+          path={`/users`}
+          element={
             <UserContextProvider>
-              <UserListRegularPage />
+              <Users />{" "}
             </UserContextProvider>
-          )}
-        ></Route>
-        <Route //Context Api added
+          }
+        />
+        <Route
           exact
-          path={`${process.env.PUBLIC_URL}/user-list-compact`}
+          path={`/user-list-compact`}
           render={() => (
             <UserContextProvider>
               <UserListCompact />
@@ -140,39 +133,35 @@ const Pages = () => {
         ></Route>
         <Route //Context Api added
           exact
-          path={`${process.env.PUBLIC_URL}/user-details-regular/:id`}
+          path={`/user-details-regular/:id`}
           render={(props) => (
             <UserContextProvider>
               <UserDetailsPage {...props} />
             </UserContextProvider>
           )}
         ></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/user-profile-regular/`} component={UserProfileLayout}></Route>
-        <Route
-          exact
-          path={`${process.env.PUBLIC_URL}/user-profile-notification/`}
-          component={UserProfileLayout}
-        ></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/user-profile-activity/`} component={UserProfileLayout}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/user-profile-setting/`} component={UserProfileLayout}></Route>
+        <Route exact path={`/user-profile-regular/`} element={<UserProfileLayout />} />
+        <Route exact path={`/user-profile-notification/`} element={<UserProfileLayout />} />
+        <Route exact path={`/user-profile-activity/`} element={<UserProfileLayout />} />
+        <Route exact path={`/user-profile-setting/`} element={<UserProfileLayout />} />
         <Route //Context api added
           exact
-          path={`${process.env.PUBLIC_URL}/user-contact-card`}
+          path={`/user-contact-card`}
           render={() => (
             <UserContextProvider>
               <UserContactCardPage />
             </UserContextProvider>
           )}
         ></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/kyc-list-regular`} component={KycListRegular}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/kyc-details-regular/:id`} component={KycDetailsRegular}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/transaction-basic`} component={TransListBasic}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/transaction-crypto`} component={TransListCrypto}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/product-list`} component={ProductList}></Route>
+        <Route exact path={`/kyc-list-regular`} element={<KycListRegular />} />
+        <Route exact path={`/kyc-details-regular/:id`} element={<KycDetailsRegular />} />
+        <Route exact path={`/transaction-basic`} element={<TransListBasic />} />
+        <Route exact path={`/transaction-crypto`} element={<TransListCrypto />} />
+        <Route exact path={`/product-list`} element={<ProductList />} />
 
         <Route // context api added
           exact
-          path={`${process.env.PUBLIC_URL}/product-card`}
+          path={`/product-card`}
           render={(props) => (
             <ProductContextProvider>
               <ProductCard />
@@ -181,31 +170,31 @@ const Pages = () => {
         ></Route>
         <Route
           exact
-          path={`${process.env.PUBLIC_URL}/product-details/:id`}
+          path={`/product-details/:id`}
           render={(props) => (
             <ProductContextProvider>
               <ProductDetails {...props} />
             </ProductContextProvider>
           )}
         ></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/invoice-list`} component={InvoiceList}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/invoice-details/:id`} component={InvoiceDetails}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/pricing-table`} component={PricingTable}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/image-gallery`} component={GalleryPreview}></Route>
+        <Route exact path={`/invoice-list`} element={<InvoiceList />} />
+        <Route exact path={`/invoice-details/:id`} element={<InvoiceDetails />} />
+        <Route exact path={`/pricing-table`} element={<PricingTable />} />
+        <Route exact path={`/image-gallery`} element={<GalleryPreview />} />
 
         {/*Demo Pages*/}
-        <Route exact path={`${process.env.PUBLIC_URL}/pages/terms-policy`} component={Terms}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/pages/faq`} component={Faq}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/pages/regular-v1`} component={Regularv1}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/pages/regular-v2`} component={Regularv2}></Route>
+        <Route exact path={`/pages/terms-policy`} element={<Terms />} />
+        <Route exact path={`/pages/faq`} element={<Faq />} />
+        <Route exact path={`/pages/regular-v1`} element={<Regularv1 />} />
+        <Route exact path={`/pages/regular-v2`} element={<Regularv2 />} />
 
         {/*Application*/}
-        <Route exact path={`${process.env.PUBLIC_URL}/app-messages`} component={AppMessages}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/app-chat`} component={Chat}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/app-calender`} component={Calender}></Route>
+        <Route exact path={`/app-messages`} element={<AppMessages />} />
+        <Route exact path={`/app-chat`} element={<Chat />} />
+        <Route exact path={`/app-calender`} element={<Calender />} />
         <Route
           exact
-          path={`${process.env.PUBLIC_URL}/app-file-manager`}
+          path={`/app-file-manager`}
           render={(props) => (
             <FileManagerContextProvider>
               <FileManager />
@@ -214,7 +203,7 @@ const Pages = () => {
         ></Route>
         <Route
           exact
-          path={`${process.env.PUBLIC_URL}/app-file-manager/files`}
+          path={`/app-file-manager/files`}
           render={(props) => (
             <FileManagerContextProvider>
               <FileManager />
@@ -223,7 +212,7 @@ const Pages = () => {
         ></Route>
         <Route
           exact
-          path={`${process.env.PUBLIC_URL}/app-file-manager/shared`}
+          path={`/app-file-manager/shared`}
           render={(props) => (
             <FileManagerContextProvider>
               <FileManager />
@@ -232,7 +221,7 @@ const Pages = () => {
         ></Route>
         <Route
           exact
-          path={`${process.env.PUBLIC_URL}/app-file-manager/starred`}
+          path={`/app-file-manager/starred`}
           render={(props) => (
             <FileManagerContextProvider>
               <FileManager />
@@ -241,7 +230,7 @@ const Pages = () => {
         ></Route>
         <Route
           exact
-          path={`${process.env.PUBLIC_URL}/app-file-manager/recovery`}
+          path={`/app-file-manager/recovery`}
           render={(props) => (
             <FileManagerContextProvider>
               <FileManager />
@@ -250,7 +239,7 @@ const Pages = () => {
         ></Route>
         <Route
           exact
-          path={`${process.env.PUBLIC_URL}/app-file-manager/settings`}
+          path={`/app-file-manager/settings`}
           render={(props) => (
             <FileManagerContextProvider>
               <FileManager />
@@ -259,7 +248,7 @@ const Pages = () => {
         ></Route>
         <Route
           exact
-          path={`${process.env.PUBLIC_URL}/app-file-manager/pricing`}
+          path={`/app-file-manager/pricing`}
           render={(props) => (
             <FileManagerContextProvider>
               <FileManager />
@@ -268,83 +257,79 @@ const Pages = () => {
         ></Route>
         <Route
           exact
-          path={`${process.env.PUBLIC_URL}/app-file-manager/folder/:id`}
+          path={`/app-file-manager/folder/:id`}
           render={(props) => (
             <FileManagerContextProvider>
               <FileManager />
             </FileManagerContextProvider>
           )}
         ></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/app-inbox`} component={Inbox}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/app-kanban`} component={Kanban}></Route>
+        <Route exact path={`/app-inbox`} element={<Inbox />} />
+        <Route exact path={`/app-kanban`} element={<Kanban />} />
 
-        {/*Components*/}
-        <Route exact path={`${process.env.PUBLIC_URL}/components`} component={Component}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/accordions`} component={Accordian}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/alerts`} component={Alerts}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/avatar`} component={Avatar}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/badges`} component={Badges}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/breadcrumbs`} component={Breadcrumbs}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/button-group`} component={ButtonGroup}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/buttons`} component={Buttons}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/cards`} component={Cards}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/carousel`} component={Carousel}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/dropdowns`} component={Dropdowns}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/form-elements`} component={FormElements}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/form-layouts`} component={FormLayouts}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/checkbox-radio`} component={CheckboxRadio}></Route>
-        <Route
-          exact
-          path={`${process.env.PUBLIC_URL}/components/advanced-control`}
-          component={AdvancedControls}
-        ></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/input-group`} component={InputGroup}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/form-upload`} component={FormUpload}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/number-spinner`} component={NumberSpinner}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/form-validation`} component={FormValidation}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/datetime-picker`} component={DateTimePicker}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/modals`} component={Modals}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/pagination`} component={Pagination}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/popovers`} component={Popovers}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/progress`} component={Progress}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/spinner`} component={Spinner}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/tabs`} component={Tabs}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/toast`} component={Toast}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/tooltips`} component={Tooltips}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/typography`} component={Typography}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/noUislider`} component={NouiSlider}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/wizard-basic`} component={WizardForm}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/quill`} component={QuillPreview}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/tinymce`} component={TinymcePreview}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/widgets/cards`} component={CardWidgets}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/widgets/charts`} component={ChartWidgets}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/widgets/rating`} component={RatingWidgets}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/misc/slick-slider`} component={SlickPage}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/misc/sweet-alert`} component={SweetAlertPage}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/misc/beautiful-dnd`} component={BeautifulDnd}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/misc/dual-list`} component={DualListPage}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/misc/map`} component={GoogleMapPage}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/misc/toastify`} component={ReactToastify}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/misc/jsTree`} component={JsTreePreview}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/util-border`} component={UtilBorder}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/util-colors`} component={UtilColors}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/util-display`} component={UtilDisplay}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/util-embeded`} component={UtilEmbeded}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/util-flex`} component={UtilFlex}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/util-others`} component={UtilOthers}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/util-sizing`} component={UtilSizing}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/util-spacing`} component={UtilSpacing}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/components/util-text`} component={UtilText}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/table-basic`} component={BasicTable}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/table-datatable`} component={DataTablePage}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/table-special`} component={SpecialTablePage}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/charts/chartjs`} component={ChartPage}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/charts/knobs`} component={KnobPreview}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/email-template`} component={EmailTemplate}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/nioicon`} component={NioIconPage}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/svg-icons`} component={SVGIconPage}></Route>
-        <Route exact path={`${process.env.PUBLIC_URL}/`} component={Homepage}></Route>
-        <Route component={RedirectAs404}></Route>
+        {/*elements*/}
+        <Route exact path={`/components`} element={<Component />} />
+        <Route exact path={`/components/accordions`} element={<Accordian />} />
+        <Route exact path={`/components/alerts`} element={<Alerts />} />
+        <Route exact path={`/components/avatar`} element={<Avatar />} />
+        <Route exact path={`/components/badges`} element={<Badges />} />
+        <Route exact path={`/components/breadcrumbs`} element={<Breadcrumbs />} />
+        <Route exact path={`/components/button-group`} element={<ButtonGroup />} />
+        <Route exact path={`/components/buttons`} element={<Buttons />} />
+        <Route exact path={`/components/cards`} element={<Cards />} />
+        <Route exact path={`/components/carousel`} element={<Carousel />} />
+        <Route exact path={`/components/dropdowns`} element={<Dropdowns />} />
+        <Route exact path={`/components/form-elements`} element={<FormElements />} />
+        <Route exact path={`/components/form-layouts`} element={<FormLayouts />} />
+        <Route exact path={`/components/checkbox-radio`} element={<CheckboxRadio />} />
+        <Route exact path={`/components/advanced-control`} element={<AdvancedControls />} />
+        <Route exact path={`/components/input-group`} element={<InputGroup />} />
+        <Route exact path={`/components/form-upload`} element={<FormUpload />} />
+        <Route exact path={`/components/number-spinner`} element={<NumberSpinner />} />
+        <Route exact path={`/components/form-validation`} element={<FormValidation />} />
+        <Route exact path={`/components/datetime-picker`} element={<DateTimePicker />} />
+        <Route exact path={`/components/modals`} element={<Modals />} />
+        <Route exact path={`/components/pagination`} element={<Pagination />} />
+        <Route exact path={`/components/popovers`} element={<Popovers />} />
+        <Route exact path={`/components/progress`} element={<Progress />} />
+        <Route exact path={`/components/spinner`} element={<Spinner />} />
+        <Route exact path={`/components/tabs`} element={<Tabs />} />
+        <Route exact path={`/components/toast`} element={<Toast />} />
+        <Route exact path={`/components/tooltips`} element={<Tooltips />} />
+        <Route exact path={`/components/typography`} element={<Typography />} />
+        <Route path={`/components/noUislider`} element={<NouiSlider />} />
+        <Route exact path={`/components/wizard-basic`} element={<WizardForm />} />
+        <Route exact path={`/components/quill`} element={<QuillPreview />} />
+        <Route exact path={`/components/tinymce`} element={<TinymcePreview />} />
+        <Route exact path={`/components/widgets/cards`} element={<CardWidgets />} />
+        <Route exact path={`/components/widgets/charts`} element={<ChartWidgets />} />
+        <Route path={`/components/widgets/rating`} element={<RatingWidgets />} />
+        <Route exact path={`/components/misc/slick-slider`} element={<SlickPage />} />
+        <Route exact path={`/components/misc/sweet-alert`} element={<SweetAlertPage />} />
+        <Route exact path={`/components/misc/beautiful-dnd`} element={<BeautifulDnd />} />
+        <Route exact path={`/components/misc/dual-list`} element={<DualListPage />} />
+        <Route exact path={`/components/misc/map`} element={<GoogleMapPage />} />
+        <Route exact path={`/components/misc/toastify`} element={<ReactToastify />} />
+        <Route exact path={`/components/misc/jsTree`} element={<JsTreePreview />} />
+        <Route exact path={`/components/util-border`} element={<UtilBorder />} />
+        <Route exact path={`/components/util-colors`} element={<UtilColors />} />
+        <Route exact path={`/components/util-display`} element={<UtilDisplay />} />
+        <Route exact path={`/components/util-embeded`} element={<UtilEmbeded />} />
+        <Route exact path={`/components/util-flex`} element={<UtilFlex />} />
+        <Route exact path={`/components/util-others`} element={<UtilOthers />} />
+        <Route exact path={`/components/util-sizing`} element={<UtilSizing />} />
+        <Route exact path={`/components/util-spacing`} element={<UtilSpacing />} />
+        <Route exact path={`/components/util-text`} element={<UtilText />} />
+        <Route exact path={`/table-basic`} element={<BasicTable />} />
+        <Route exact path={`/table-datatable`} element={<DataTablePage />} />
+        <Route exact path={`/table-special`} element={<SpecialTablePage />} />
+        <Route exact path={`/charts/chartjs`} element={<ChartPage />} />
+        <Route exact path={`/charts/knobs`} element={<KnobPreview />} />
+        <Route exact path={`/email-template`} element={<EmailTemplate />} />
+        <Route exact path={`/nioicon`} element={<NioIconPage />} />
+        <Route exact path={`/svg-icons`} element={<SVGIconPage />} />
+        <Route exact path={`/`} element={<Homepage />} />
+        <Route element={RedirectAs404}></Route>
       </Routes>
     </Suspense>
   );

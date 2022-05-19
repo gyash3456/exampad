@@ -15,10 +15,8 @@ import {
   PreviewCard,
 } from "../../components/Component";
 import { Form, FormGroup, Spinner, Alert } from "reactstrap";
-import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { actions } from "../../features/auth/slice";
 
@@ -41,31 +39,9 @@ const Login = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      navigate("/");
+      navigate("/", { replace: true });
     }
   }, [isLoggedIn]);
-
-  // const onFormSubmit = (formData) => {
-  //   setLoading(true);
-  //   const loginName = "info@softnio.com";
-  //   const pass = "123456";
-  //   if (formData.name === loginName && formData.passcode === pass) {
-  //     localStorage.setItem("accessToken", "token");
-  //     setTimeout(() => {
-  //       window.history.pushState(
-  //         `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : "/"}`,
-  //         "auth-login",
-  //         `${process.env.PUBLIC_URL ? process.env.PUBLIC_URL : "/"}`
-  //       );
-  //       window.location.reload();
-  //     }, 2000);
-  //   } else {
-  //     setTimeout(() => {
-  //       setError("Cannot login with credentials");
-  //       setLoading(false);
-  //     }, 2000);
-  //   }
-  // };
 
   return (
     <React.Fragment>
@@ -109,7 +85,7 @@ const Login = () => {
                     id="default-01"
                     name="email"
                     onChange={(e) => setEmail(e.target.value)}
-                    defaultValue="info@softnio.com"
+                    defaultValue="email@domain.com"
                     placeholder="Enter your email address or username"
                     className="form-control-lg form-control"
                   />

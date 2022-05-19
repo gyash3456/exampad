@@ -2,13 +2,11 @@ import React, { Suspense, lazy } from "react";
 import ReactDOM from "react-dom";
 import "./assets/scss/dashlite.scss";
 import "./assets/scss/style-email.scss";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+
 import { Provider } from "react-redux";
 import store from "./store";
-
-const Error404Modern = lazy(() => import("./pages/error/404-modern"));
 
 ReactDOM.render(
   <Provider store={store}>

@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 function PrivateRoute({ children }) {
   const { isLoggedIn } = useSelector((state) => state.user);
+
   if (!isLoggedIn) {
     return <Navigate to={`${process.env.PUBLIC_URL}/auth-login`} />;
   }
