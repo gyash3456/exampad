@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const register = ({ name, email, password }) => {
-  return axios.post(process.env.REACT_APP_API_URL + "/api/signup", {
+  return axios.post(process.env.REACT_APP_API_URL + "/api/register", {
     name,
     email,
     password,
@@ -9,7 +9,7 @@ const register = ({ name, email, password }) => {
 };
 const login = ({ email, password }) => {
   return axios.post(
-    process.env.REACT_APP_API_URL + "/api/signin",
+    process.env.REACT_APP_API_URL + "/api/login",
     { email, password },
     {
       withCredentials: true,
@@ -18,7 +18,7 @@ const login = ({ email, password }) => {
   );
 };
 const logout = () => {
-  return axios.post(process.env.REACT_APP_API_URL + "/api/signout", null, {
+  return axios.post(process.env.REACT_APP_API_URL + "/api/logout", null, {
     withCredentials: true,
     credentials: "include",
   });

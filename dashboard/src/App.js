@@ -45,25 +45,25 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           {/* Auth Pages */}
-          <Route exact path={`${process.env.PUBLIC_URL}/auth-success`} element={<Success />} />
-          <Route exact path={`${process.env.PUBLIC_URL}/auth-reset`} element={<ForgotPassword />} />
-          <Route exact path={`${process.env.PUBLIC_URL}/auth-register`} element={<Register />} />
-          <Route exact path={`${process.env.PUBLIC_URL}/auth-login`} element={<Login />} />
+          <Route exact path="/auth-success" element={<Success />} />
+          <Route exact path="/auth-reset" element={<ForgotPassword />} />
+          <Route exact path="/auth-register" element={<Register />} />
+          <Route exact path="/auth-login" element={<Login />} />
 
           {/* Print Pages */}
-          <Route exact path={`${process.env.PUBLIC_URL}/invoice-print/:id`} element={<InvoicePrint />} />
+          <Route exact path="/invoice-print/:id" element={<InvoicePrint />} />
 
           {/* Helper pages */}
-          <Route exact path={`${process.env.PUBLIC_URL}/auths/terms`} element={<Terms />} />
-          <Route exact path={`${process.env.PUBLIC_URL}/auths/faq`} element={<Faq />} />
+          <Route exact path="/auths/terms" element={<Terms />} />
+          <Route exact path="/auths/faq" element={<Faq />} />
 
-          <Route exact path={`${process.env.PUBLIC_URL}/invoice-print`} element={<InvoicePrint />} />
+          <Route exact path="/invoice-print" element={<InvoicePrint />} />
 
           {/*Error Pages*/}
-          <Route exact path={`${process.env.PUBLIC_URL}/errors/404-classic`} element={<Error404Classic />} />
-          <Route exact path={`${process.env.PUBLIC_URL}/errors/504-modern`} element={<Error504Modern />} />
-          <Route exact path={`${process.env.PUBLIC_URL}/errors/404-modern`} element={<Error404Modern />} />
-          <Route exact path={`${process.env.PUBLIC_URL}/errors/504-classic`} element={<Error504Classic />} />
+          <Route exact path="/errors/404-classic" element={<Error404Classic />} />
+          <Route exact path="/errors/504-modern" element={<Error504Modern />} />
+          <Route exact path="/errors/404-modern" element={<Error404Modern />} />
+          <Route exact path="/errors/504-classic" element={<Error504Classic />} />
 
           {/*Main Routes*/}
           <Route

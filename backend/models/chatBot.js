@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
-const { Schema } = mongoose;
+const { Schema, model } = require("mongoose");
 
-const chatBotSchema = new Schema({
+const ChatBotSchema = new Schema({
   id: String,
   message: String,
   component: String,
@@ -17,6 +16,4 @@ const chatBotSchema = new Schema({
   trigger: String,
 });
 
-var chatBotModel = mongoose.model("chatbots", chatBotSchema);
-
-module.exports = chatBotModel;
+module.exports = model("Chatbot", ChatBotSchema);

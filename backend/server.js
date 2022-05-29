@@ -3,6 +3,7 @@ const cors = require("cors");
 
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
+const passport = require("passport");
 
 const dbConfig = require("./config/dbConfig");
 
@@ -16,8 +17,6 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
-const { authJwt } = require("./middlewares");
-const adminController = require("./controllers/adminController");
 //Add the client URL to the CORS policy
 
 const whitelist = process.env.WHITELISTED_DOMAINS
@@ -38,8 +37,13 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 
+// Passport
+app.use(passport.initialize());
+require("./middlewares/passport")(passport);
+
+// Database Connection
+
 const db = require("./models");
-const Role = db.role;
 db.mongoose
   .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
     useNewUrlParser: true,
@@ -54,6 +58,9 @@ db.mongoose
     process.exit();
   });
 
+// Role Initial function
+
+const Role = db.role;
 function initial() {
   Role.estimatedDocumentCount((err, count) => {
     if (!err && count === 0) {
@@ -85,18 +92,18 @@ function initial() {
   });
 }
 
-app.use("/chatbot", require("./routes/chatbots"));
+// Define Routes
 
-require("./routes/authRoutes")(app);
-require("./routes/userRoutes")(app);
-app.use("/chatbot", require("./routes/chatbots"));
-app.use(
-  "/api/admin",
-  [authJwt.verifyToken, authJwt.isAdmin],
-  require("./routes/adminRoutes")
-);
+const adminRoutes = require("./routes/adminRoutes");
+const authRoutes = require("./routes/authRoutes");
+const categoryRoutes = require("./routes/blog/categoryRoutes");
+
+app.use("/api", adminRoutes);
+app.use("/api", authRoutes);
+app.use("/api", categoryRoutes);
 
 // Handle errors.
+
 app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.json({ error: err });

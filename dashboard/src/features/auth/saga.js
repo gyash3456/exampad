@@ -27,15 +27,9 @@ function* registerSaga({ payload }) {
 function* userLoginSaga({ payload }) {
   try {
     yield put(actions.loginPending());
-    const { user, timeout } = yield race({
-      user: call(authService.login, payload),
-      timeout: delay(LOGIN_TIMEOUT_SEC * 1000),
-    });
-    if (timeout) {
-      throw new Error("Login timeout, check your network connection.");
-    } else {
-      yield put(actions.loginSuccess(user));
-    }
+    const response = yield call(authService.login, payload);
+
+    yield put(actions.loginSuccess(response.data.result.user));
   } catch (e) {
     console.log("Exception in userLoginSaga");
     yield put(actions.loginFailure());

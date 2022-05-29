@@ -5,7 +5,12 @@ db.mongoose = mongoose;
 db.user = require("./user");
 db.role = require("./role");
 db.refreshToken = require("./refreshToken");
-db.chatBotModel = require("./chatBotModel");
 
-db.ROLES = ["user", "admin", "moderator"];
+db.chatBot = require("./chatBot");
+
+// Blog Models
+db.category = require("./category");
+db.post = require("./post");
+db.comment = require("./comment");
+
 module.exports = db;

@@ -101,7 +101,7 @@ import KnobPreview from "../pages/components/charts/KnobPreview";
 import { FileManagerContextProvider } from "../pages/app/file-manager/FileManagerContext";
 
 import Users from "../pages/user/Users";
-import PostCreate from "../pages/blog/PostCreate";
+import { PostCreate, Category } from "../pages/blog";
 
 const Pages = () => {
   useLayoutEffect(() => {
@@ -113,6 +113,8 @@ const Pages = () => {
         {/*Pre-built Pages*/}
         <Route exact path={`/posts`} element={<ProjectCardPage />} />
         <Route exact path={`/new-post`} element={<PostCreate />} />
+        <Route exact path={`/categories`} element={<Category />} />
+
         <Route
           exact
           path={`/users`}

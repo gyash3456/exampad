@@ -17,6 +17,10 @@ const menu = [
         text: "Add New Post",
         link: "/new-post",
       },
+      {
+        text: "Categories",
+        link: "/categories",
+      },
     ],
   },
   {

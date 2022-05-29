@@ -1,11 +1,11 @@
 var express = require("express");
 var router = express.Router();
-const chatBotModel = require("../models/chatBotModel");
+const chatBot = require("../models/chatBot");
 
 /* GET home page. */
 router.get("/getOne/:id", async (req, res) => {
   try {
-    const data = await chatBotModel.find({ id: req.params.id });
+    const data = await chatBot.find({ id: req.params.id });
     res.json(data);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -14,7 +14,7 @@ router.get("/getOne/:id", async (req, res) => {
 
 router.get("/getAll", async (req, res) => {
   try {
-    const data = await chatBotModel.find().select("-_id -__v");
+    const data = await chatBot.find().select("-_id -__v");
     res.json(data);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -22,7 +22,7 @@ router.get("/getAll", async (req, res) => {
 });
 
 router.post("/post", async (req, res) => {
-  const data = new chatBotModel({
+  const data = new chatBot({
     id: req.body.id,
     options: req.body.options,
     message: req.body.message,

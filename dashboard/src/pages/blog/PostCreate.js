@@ -41,6 +41,7 @@ function PostCreate() {
                     </label>
                     <div className="form-control-wrap">
                       <Editor
+                        apiKey={process.env.REACT_APP_TINYMCE_APIKEY}
                         initialValue="<p>This is the initial content of the editor.</p>"
                         value={content}
                         onEditorChange={(newContent, editor) => setContent(newContent)}
