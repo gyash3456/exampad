@@ -1,7 +1,7 @@
 import { call, delay, put, race, take, takeLatest } from "redux-saga/effects";
 
-import authService from "../../services/authService";
-import { actions } from "./slice";
+import authService from "./authService";
+import { actions } from "./authSlice";
 
 const LOGIN_TIMEOUT_SEC = 5;
 

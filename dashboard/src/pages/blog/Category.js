@@ -26,8 +26,13 @@ import { productData, categoryOptions } from "../pre-built/products/ProductData"
 import { useForm } from "react-hook-form";
 import { Modal, ModalBody } from "reactstrap";
 import { RSelect } from "../../components/Component";
+import { useDispatch, useSelector } from "react-redux";
+import { actions } from "../../features/blog/blogSlice";
 
 const Category = () => {
+  const dispatch = useDispatch();
+  const { categories } = useSelector((state) => state.blog);
+
   const [data, setData] = useState(productData);
   const [sm, updateSm] = useState(false);
   const [formData, setFormData] = useState({
@@ -53,6 +58,8 @@ const Category = () => {
 
   // Changing state value when searching name
   useEffect(() => {
+    dispatch(actions.categoriesRequest({ currentPage }));
+
     if (onSearchText !== "") {
       const filteredObject = productData.filter((item) => {
         return item.sku.toLowerCase().includes(onSearchText.toLowerCase());

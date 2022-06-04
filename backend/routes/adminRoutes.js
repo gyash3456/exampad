@@ -2,7 +2,7 @@ const router = require("express").Router();
 const {
   ensureAuthenticated,
   ensureAuthorized,
-} = require("../middlewares/auth");
+} = require("../middlewares/authMiddleware");
 const { register } = require("../controllers/authController");
 
 const { getAll, getOne } = require("../controllers/adminController");

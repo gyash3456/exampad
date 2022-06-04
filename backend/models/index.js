@@ -2,15 +2,15 @@ const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 const db = {};
 db.mongoose = mongoose;
-db.user = require("./user");
-db.role = require("./role");
-db.refreshToken = require("./refreshToken");
+db.user = require("./userModel");
+db.role = require("./roleModel");
+db.refreshToken = require("./refreshTokenModel");
 
-db.chatBot = require("./chatBot");
+db.chatBot = require("./chatBotModel");
 
 // Blog Models
-db.category = require("./category");
-db.post = require("./post");
-db.comment = require("./comment");
+db.category = require("./categoryModel");
+db.post = require("./postModel");
+db.comment = require("./commentModel");
 
 module.exports = db;

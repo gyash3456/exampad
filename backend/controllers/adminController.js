@@ -1,4 +1,4 @@
-const User = require("../models/user");
+const User = require("../models/userModel");
 const paginate = require("express-paginate");
 
 const getAll = async (req, res) => {
