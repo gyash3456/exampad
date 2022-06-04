@@ -1,5 +1,8 @@
 const router = require("express").Router();
-const { validationRules, validate } = require("../validators/userValidator");
+const {
+  validationRules,
+  validate,
+} = require("../validators/auth/userValidator");
 const {
   login,
   register,
@@ -10,7 +13,7 @@ const {
   resetPassword,
   changePassword,
 } = require("../controllers/authController");
-const { ensureAuthenticated } = require("../middlewares/auth");
+const { ensureAuthenticated } = require("../middlewares/authMiddleware");
 // const { validationRules: passwordValidationRules, validate: passwordValidate } = require("../validations/change-password-validator");
 
 router.post("/login", async (req, res) => {

@@ -2,11 +2,11 @@ const router = require("express").Router();
 const {
   ensureAuthenticated,
   ensureAuthorized,
-} = require("../../middlewares/auth");
+} = require("../../middlewares/authMiddleware");
 const {
   validationRules,
   validate,
-} = require("../../validators/categoryValidator");
+} = require("../../validators/blog/categoryValidator");
 const {
   addOne,
   removeOne,

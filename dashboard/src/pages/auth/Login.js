@@ -18,7 +18,7 @@ import { Form, FormGroup, Spinner, Alert } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { actions } from "../../features/auth/slice";
+import { actions } from "../../features/auth/authSlice";
 
 const Login = () => {
   const [passState, setPassState] = useState(false);
@@ -26,9 +26,9 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const dispatch = useDispatch();
   let navigate = useNavigate();
 
+  const dispatch = useDispatch();
   const { isLoggedIn, loading, errorVal } = useSelector((state) => state.user);
 
   const formSubmitHandler = (e) => {

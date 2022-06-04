@@ -3,7 +3,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import { RedirectAs404 } from "./utils/Utils";
 import PrivateRoute from "./route/PrivateRoute";
 import { useDispatch, useSelector } from "react-redux";
-import { actions } from "./features/auth/slice";
+import { actions } from "./features/auth/authSlice";
 
 import Layout from "./layout/Index";
 

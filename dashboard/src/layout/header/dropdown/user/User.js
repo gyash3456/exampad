@@ -4,7 +4,7 @@ import { DropdownToggle, DropdownMenu, Dropdown } from "reactstrap";
 import { Icon } from "../../../../components/Component";
 import { LinkList, LinkItem } from "../../../../components/links/Links";
 import { useDispatch, useSelector } from "react-redux";
-import { actions } from "../../../../features/auth/slice";
+import { actions } from "../../../../features/auth/authSlice";
 
 const User = () => {
   const [open, setOpen] = useState(false);

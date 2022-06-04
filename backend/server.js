@@ -39,7 +39,7 @@ app.use(express.json());
 
 // Passport
 app.use(passport.initialize());
-require("./middlewares/passport")(passport);
+require("./middlewares/passportMiddleware")(passport);
 
 // Database Connection
 

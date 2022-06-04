@@ -18,7 +18,7 @@ import { Spinner, FormGroup, Alert } from "reactstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { actions } from "../../features/auth/slice";
+import { actions } from "../../features/auth/authSlice";
 
 const Register = () => {
   const [passState, setPassState] = useState(false);
