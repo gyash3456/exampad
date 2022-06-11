@@ -1,11 +1,11 @@
 {
-  "name": "chatbot",
+  "name": "exampad",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "nodemon backend/server",
+    "server": "node backend/server",
     "dashboard": "npm start --prefix dashboard",
     "client": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run client\" \"npm run dashboard\""

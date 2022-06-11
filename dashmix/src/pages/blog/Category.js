@@ -33,17 +33,10 @@ const Category = () => {
   const dispatch = useDispatch();
   const { categories } = useSelector((state) => state.blog);
 
-  const [data, setData] = useState(productData);
+  const [data, setData] = useState([]);
   const [sm, updateSm] = useState(false);
   const [formData, setFormData] = useState({
-    name: "",
-    img: null,
-    sku: "",
-    price: 0,
-    stock: 0,
-    category: [],
-    fav: false,
-    check: false,
+    title: "",
   });
   const [editId, setEditedId] = useState();
   const [view, setView] = useState({
@@ -59,16 +52,21 @@ const Category = () => {
   // Changing state value when searching name
   useEffect(() => {
     dispatch(actions.categoriesRequest({ currentPage }));
-
-    if (onSearchText !== "") {
-      const filteredObject = productData.filter((item) => {
-        return item.sku.toLowerCase().includes(onSearchText.toLowerCase());
-      });
-      setData([...filteredObject]);
-    } else {
-      setData([...productData]);
+    if (categories != undefined) {
+      setData(categories.data.data);
     }
-  }, [onSearchText]);
+  }, [setData]);
+
+  // useEffect(() => {
+  //   if (onSearchText !== "") {
+  //     const filteredObject = productData.filter((item) => {
+  //       return item.sku.toLowerCase().includes(onSearchText.toLowerCase());
+  //     });
+  //     setData([...filteredObject]);
+  //   } else {
+  //     setData([...productData]);
+  //   }
+  // }, [onSearchText]);
 
   // OnChange function to get the input data
   const onInputChange = (e) => {
@@ -88,14 +86,7 @@ const Category = () => {
 
   const resetForm = () => {
     setFormData({
-      name: "",
-      img: null,
-      sku: "",
-      price: "",
-      stock: 0,
-      category: [],
-      fav: false,
-      check: false,
+      title: "",
     });
   };
 
@@ -147,16 +138,9 @@ const Category = () => {
   // function that loads the want to editted data
   const onEditClick = (id) => {
     data.forEach((item) => {
-      if (item.id === id) {
+      if (item._id === id) {
         setFormData({
-          name: item.name,
-          img: item.img,
-          sku: item.sku,
-          price: item.price,
-          stock: item.stock,
-          category: item.category,
-          fav: false,
-          check: false,
+          title: item.title,
         });
       }
     });
@@ -165,7 +149,7 @@ const Category = () => {
     setView({ add: false, edit: true });
   };
 
-  // selects all the products
+  // selects all the categories
   const selectorCheck = (e) => {
     let newData;
     newData = data.map((item) => {
@@ -175,7 +159,7 @@ const Category = () => {
     setData([...newData]);
   };
 
-  // selects one product
+  // selects one category
   const onSelectChange = (e, id) => {
     let newData = data;
     let index = newData.findIndex((item) => item.id === id);
@@ -188,21 +172,21 @@ const Category = () => {
     setSearchText(e.target.value);
   };
 
-  // function to delete a product
-  const deleteProduct = (id) => {
+  // function to delete a category
+  const deleteCategory = (id) => {
     let defaultData = data;
     defaultData = defaultData.filter((item) => item.id !== id);
     setData([...defaultData]);
   };
 
   // function to delete the seletected item
-  const selectorDeleteProduct = () => {
+  const selectorDeleteCategory = () => {
     let newData;
     newData = data.filter((item) => item.check !== true);
     setData([...newData]);
   };
 
-  // toggle function to view product details
+  // toggle function to view category details
   const toggle = (type) => {
     setView({
       edit: type === "edit" ? true : false,
@@ -231,7 +215,7 @@ const Category = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const { errors, register, handleSubmit } = useForm();
-
+  console.log(currentItems);
   return (
     <React.Fragment>
       <Head title="Category List"></Head>
@@ -345,21 +329,7 @@ const Category = () => {
                     <DataTableRow size="sm">
                       <span>Name</span>
                     </DataTableRow>
-                    <DataTableRow>
-                      <span>SKU</span>
-                    </DataTableRow>
-                    <DataTableRow>
-                      <span>Price</span>
-                    </DataTableRow>
-                    <DataTableRow>
-                      <span>Stock</span>
-                    </DataTableRow>
-                    <DataTableRow size="md">
-                      <span>Category</span>
-                    </DataTableRow>
-                    <DataTableRow size="md">
-                      <Icon name="star-round" className="tb-asterisk"></Icon>
-                    </DataTableRow>
+
                     <DataTableRow className="nk-tb-col-tools">
                       <ul className="nk-tb-actions gx-1 my-n1">
                         <li className="mr-n1">
@@ -386,7 +356,7 @@ const Category = () => {
                                     href="#remove"
                                     onClick={(ev) => {
                                       ev.preventDefault();
-                                      selectorDeleteProduct();
+                                      selectorDeleteCategory();
                                     }}
                                   >
                                     <Icon name="trash"></Icon>
@@ -415,7 +385,7 @@ const Category = () => {
                   {currentItems.length > 0
                     ? currentItems.map((item) => {
                         return (
-                          <DataTableItem key={item.id}>
+                          <DataTableItem key={item._id}>
                             <DataTableRow className="nk-tb-col-check">
                               <div className="custom-control custom-control-sm custom-checkbox notext">
                                 <input
@@ -430,41 +400,11 @@ const Category = () => {
                               </div>
                             </DataTableRow>
                             <DataTableRow size="sm">
-                              <span className="tb-product">
-                                <img src={item.img ? item.img : ProductH} alt="product" className="thumb" />
-                                <span className="title">{item.name}</span>
+                              <span className="tb-category">
+                                <span className="title">{item.title}</span>
                               </span>
                             </DataTableRow>
-                            <DataTableRow>
-                              <span className="tb-sub">{item.sku}</span>
-                            </DataTableRow>
-                            <DataTableRow>
-                              <span className="tb-sub">$ {item.price}</span>
-                            </DataTableRow>
-                            <DataTableRow>
-                              <span className="tb-sub">{item.stock}</span>
-                            </DataTableRow>
-                            <DataTableRow size="md">
-                              <span className="tb-sub">
-                                {item.category.map((cat) => {
-                                  if (item.category[cat] + 1 === null || undefined) {
-                                    return cat.label;
-                                  } else return cat.label + ", ";
-                                })}
-                              </span>
-                            </DataTableRow>
-                            <DataTableRow size="md">
-                              <div className="asterisk tb-asterisk">
-                                <a
-                                  href="#asterisk"
-                                  className={item.fav ? "active" : ""}
-                                  onClick={(ev) => ev.preventDefault()}
-                                >
-                                  <Icon name="star" className="asterisk-off"></Icon>
-                                  <Icon name="star-fill" className="asterisk-on"></Icon>
-                                </a>
-                              </div>
-                            </DataTableRow>
+
                             <DataTableRow className="nk-tb-col-tools">
                               <ul className="nk-tb-actions gx-1 my-n1">
                                 <li className="mr-n1">
@@ -485,12 +425,12 @@ const Category = () => {
                                             href="#edit"
                                             onClick={(ev) => {
                                               ev.preventDefault();
-                                              onEditClick(item.id);
+                                              onEditClick(item._id);
                                               toggle("edit");
                                             }}
                                           >
                                             <Icon name="edit"></Icon>
-                                            <span>Edit Product</span>
+                                            <span>Edit Category</span>
                                           </DropdownItem>
                                         </li>
                                         <li>
@@ -499,12 +439,12 @@ const Category = () => {
                                             href="#view"
                                             onClick={(ev) => {
                                               ev.preventDefault();
-                                              onEditClick(item.id);
+                                              onEditClick(item._id);
                                               toggle("details");
                                             }}
                                           >
                                             <Icon name="eye"></Icon>
-                                            <span>View Product</span>
+                                            <span>View Category</span>
                                           </DropdownItem>
                                         </li>
                                         <li>
@@ -513,11 +453,11 @@ const Category = () => {
                                             href="#remove"
                                             onClick={(ev) => {
                                               ev.preventDefault();
-                                              deleteProduct(item.id);
+                                              deleteCategory(item.id);
                                             }}
                                           >
                                             <Icon name="trash"></Icon>
-                                            <span>Remove Product</span>
+                                            <span>Remove Category</span>
                                           </DropdownItem>
                                         </li>
                                       </ul>
@@ -541,7 +481,7 @@ const Category = () => {
                     />
                   ) : (
                     <div className="text-center">
-                      <span className="text-silent">No products found</span>
+                      <span className="text-silent">No category found</span>
                     </div>
                   )}
                 </div>
@@ -563,14 +503,14 @@ const Category = () => {
               ></Icon>
             </a>
             <div className="p-2">
-              <h5 className="title">Update Product</h5>
+              <h5 className="title">Update Category</h5>
               <div className="mt-4">
                 <form noValidate onSubmit={handleSubmit(onEditSubmit)}>
                   <Row className="g-3">
                     <Col size="12">
                       <div className="form-group">
-                        <label className="form-label" htmlFor="product-title">
-                          Product Title
+                        <label className="form-label" htmlFor="category-title">
+                          Category Title
                         </label>
                         <div className="form-control-wrap">
                           <input
@@ -675,7 +615,7 @@ const Category = () => {
                     <Col size="6">
                       <div className="form-group">
                         <label className="form-label" htmlFor="category">
-                          Product Image
+                          Category Image
                         </label>
                         <div className="form-control-wrap">
                           <img src={formData.img} alt=""></img>
@@ -711,7 +651,7 @@ const Category = () => {
                     <Col size="12">
                       <Button color="primary" type="submit">
                         <Icon className="plus"></Icon>
-                        <span>Update Product</span>
+                        <span>Update Category</span>
                       </Button>
                     </Col>
                   </Row>
@@ -733,35 +673,12 @@ const Category = () => {
                 }}
               ></Icon>
             </a>
-            <div className="nk-modal-head">
-              <h4 className="nk-modal-title title">
-                Product <small className="text-primary">#{formData.sku}</small>
-              </h4>
-              <img src={formData.img} alt="" />
-            </div>
+
             <div className="nk-tnx-details mt-sm-3">
               <Row className="gy-3">
                 <Col lg={6}>
-                  <span className="sub-text">Product Name</span>
-                  <span className="caption-text">{formData.name}</span>
-                </Col>
-                <Col lg={6}>
-                  <span className="sub-text">Product Price</span>
-                  <span className="caption-text">$ {formData.price}</span>
-                </Col>
-                <Col lg={6}>
-                  <span className="sub-text">Product Category</span>
-                  <span className="caption-text">
-                    {formData.category.map((item, index) => (
-                      <Badge key={index} className="mr-1" color="secondary">
-                        {item.value}
-                      </Badge>
-                    ))}
-                  </span>
-                </Col>
-                <Col lg={6}>
-                  <span className="sub-text">Stock</span>
-                  <span className="caption-text"> {formData.stock}</span>
+                  <span className="sub-text">Category Title</span>
+                  <span className="caption-text">{formData.title}</span>
                 </Col>
               </Row>
             </div>
@@ -769,15 +686,15 @@ const Category = () => {
         </Modal>
 
         <SimpleBar
-          className={`nk-add-product toggle-slide toggle-slide-right toggle-screen-any ${
+          className={`nk-add-category toggle-slide toggle-slide-right toggle-screen-any ${
             view.add ? "content-active" : ""
           }`}
         >
           <BlockHead>
             <BlockHeadContent>
-              <BlockTitle tag="h5">Add Product</BlockTitle>
+              <BlockTitle tag="h5">Add Category</BlockTitle>
               <BlockDes>
-                <p>Add information or update product.</p>
+                <p>Add information or update category.</p>
               </BlockDes>
             </BlockHeadContent>
           </BlockHead>
@@ -786,8 +703,8 @@ const Category = () => {
               <Row className="g-3">
                 <Col size="12">
                   <div className="form-group">
-                    <label className="form-label" htmlFor="product-title">
-                      Product Title
+                    <label className="form-label" htmlFor="category-title">
+                      Category Title
                     </label>
                     <div className="form-control-wrap">
                       <input
@@ -798,128 +715,17 @@ const Category = () => {
                         ref={register({
                           required: "This field is required",
                         })}
-                        defaultValue={formData.name}
+                        defaultValue={formData.title}
                       />
                       {errors.title && <span className="invalid">{errors.title.message}</span>}
                     </div>
                   </div>
                 </Col>
-                <Col md="6">
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="regular-price">
-                      Regular Price
-                    </label>
-                    <div className="form-control-wrap">
-                      <input
-                        type="number"
-                        name="price"
-                        ref={register({ required: "This is required" })}
-                        onChange={(e) => onInputChange(e)}
-                        className="form-control"
-                        defaultValue={formData.price}
-                      />
-                      {errors.price && <span className="invalid">{errors.price.message}</span>}
-                    </div>
-                  </div>
-                </Col>
-                <Col md="6">
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="sale-price">
-                      Sale Price
-                    </label>
-                    <div className="form-control-wrap">
-                      <input
-                        type="number"
-                        className="form-control"
-                        name="salePrice"
-                        onChange={(e) => onInputChange(e)}
-                        ref={register({ required: "This is required" })}
-                        defaultValue={formData.price}
-                      />
-                      {errors.salePrice && <span className="invalid">{errors.salePrice.message}</span>}
-                    </div>
-                  </div>
-                </Col>
-                <Col md="6">
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="stock">
-                      Stock
-                    </label>
-                    <div className="form-control-wrap">
-                      <input
-                        type="number"
-                        className="form-control"
-                        name="stock"
-                        onChange={(e) => onInputChange(e)}
-                        ref={register({ required: "This is required" })}
-                        defaultValue={formData.stock}
-                      />
-                      {errors.stock && <span className="invalid">{errors.stock.message}</span>}
-                    </div>
-                  </div>
-                </Col>
-                <Col md="6">
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="SKU">
-                      SKU
-                    </label>
-                    <div className="form-control-wrap">
-                      <input
-                        type="text"
-                        className="form-control"
-                        name="sku"
-                        onChange={(e) => onInputChange(e)}
-                        ref={register({ required: "This is required" })}
-                        defaultValue={formData.sku}
-                      />
-                      {errors.sku && <span className="invalid">{errors.sku.message}</span>}
-                    </div>
-                  </div>
-                </Col>
-                <Col size="12">
-                  <div className="form-group">
-                    <label className="form-label" htmlFor="category">
-                      Category
-                    </label>
-                    <div className="form-control-wrap">
-                      <RSelect
-                        name="category"
-                        isMulti
-                        options={categoryOptions}
-                        onChange={onCategoryChange}
-                        //ref={register({ required: "This is required" })}
-                      />
-                      {errors.category && <span className="invalid">{errors.category.message}</span>}
-                    </div>
-                  </div>
-                </Col>
-                <Col size="12">
-                  <Dropzone onDrop={(acceptedFiles) => handleDropChange(acceptedFiles)}>
-                    {({ getRootProps, getInputProps }) => (
-                      <section>
-                        <div {...getRootProps()} className="dropzone upload-zone small bg-lighter my-2 dz-clickable">
-                          <input {...getInputProps()} />
-                          {files.length === 0 && <p>Drag 'n' drop some files here, or click to select files</p>}
-                          {files.map((file) => (
-                            <div
-                              key={file.name}
-                              className="dz-preview dz-processing dz-image-preview dz-error dz-complete"
-                            >
-                              <div className="dz-image">
-                                <img src={file.preview} alt="preview" />
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </section>
-                    )}
-                  </Dropzone>
-                </Col>
 
                 <Col size="12">
                   <Button color="primary" type="submit">
                     <Icon className="plus"></Icon>
-                    <span>Add Product</span>
+                    <span>Add Category</span>
                   </Button>
                 </Col>
               </Row>
