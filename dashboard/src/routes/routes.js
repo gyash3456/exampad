@@ -11,6 +11,7 @@ import Register from '../pages/Register';
 import Products from '../pages/Products';
 import DashboardApp from '../pages/DashboardApp';
 import ProtectedRoute from './ProtectedRoute';
+import CreatePost from 'src/pages/blog/CreatePost';
 
 // ----------------------------------------------------------------------
 
@@ -21,9 +22,10 @@ export default function Router() {
       <Route exact path="/login" element={<Login />} />
 
       {/*Main Routes*/}
-      <Route path="/dashboard" name="Admin" element={<ProtectedRoute />}>
-        <Route exact path="/dashboard" element={<DashboardLayout />}>
-          <Route exact path="app" element={<DashboardApp />} />
+      <Route path="/admin" name="Admin" element={<ProtectedRoute />}>
+        <Route exact path="/admin" element={<DashboardLayout />}>
+          <Route exact path="dashboard" element={<DashboardApp />} />
+          <Route exact path="blog/new" element={<CreatePost />} />
           <Route exact path="user" element={<User />} />
         </Route>
       </Route>
