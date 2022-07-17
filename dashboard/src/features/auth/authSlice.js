@@ -1,9 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const userSlice = createSlice({
-  name: 'user',
+const authSlice = createSlice({
+  name: 'auth',
   initialState: {
-    user: null,
+    accessToken: null,
     loading: false,
     isLoggedIn: false,
     errorVal: false,
@@ -11,32 +11,31 @@ const userSlice = createSlice({
   },
   reducers: {
     registerRequest: () => {},
-    registerPending: () => ({ user: null, loading: true, registerSuccess: false, isLoggedIn: false }),
+    registerPending: () => ({ accessToken: null, loading: true, registerSuccess: false, isLoggedIn: false }),
     registerSuccess: () => ({
       registerSuccess: true,
     }),
     registerFailure: () => ({
-      user: null,
+      accessToken: null,
       loading: false,
       isLoggedIn: false,
       registerSuccess: false,
       errorVal: true,
     }),
     loginRequest: () => {},
-    loginPending: () => ({ user: null, loading: true, isLoggedIn: false }),
-    loginSuccess: (state, { payload: user }) => ({
-      user,
+    loginPending: () => ({ accessToken: null, loading: true, isLoggedIn: false }),
+    loginSuccess: (state, { payload: result }) => ({
+      accessToken: result.accessToken,
       loading: false,
       isLoggedIn: true,
       errorVal: false,
     }),
-    loginFailure: () => ({ user: null, loading: false, isLoggedIn: false, errorVal: true }),
+    loginFailure: () => ({ accessToken: null, loading: false, isLoggedIn: false, errorVal: true }),
 
     logoutRequest: () => {},
-    logoutSuccess: () => ({ user: null, loading: false, isLoggedIn: false }),
+    logoutSuccess: () => ({ accessToken: null, loading: false, isLoggedIn: false }),
     verifyRequest: () => {},
     verifySuccess: (state, { payload: user }) => {
-      console.log('verifySuccess REDUCER', user);
       return {
         user,
         loading: true,
@@ -45,16 +44,18 @@ const userSlice = createSlice({
     },
     verifyFailure: () => {},
     refreshTokenRequest: () => {},
-    refreshTokenPending: () => ({ user: null, loading: true, isLoggedIn: false }),
-    refreshTokenSuccess: (state, { payload: user }) => ({
-      user,
-      loading: false,
-      isLoggedIn: true,
-      errorVal: false,
-    }),
-    refreshTokenFailure: () => ({ user: null, loading: false, isLoggedIn: false }),
+    refreshTokenPending: () => ({ accessToken: null, loading: true, isLoggedIn: false }),
+    refreshTokenSuccess: (state, { payload: result }) => {
+      return {
+        accessToken: result.data.accessToken,
+        loading: false,
+        isLoggedIn: true,
+        errorVal: false,
+      };
+    },
+    refreshTokenFailure: () => ({ accessToken: null, loading: false, isLoggedIn: false }),
   },
 });
 
-export const actions = userSlice.actions;
-export default userSlice.reducer;
+export const actions = authSlice.actions;
+export default authSlice.reducer;

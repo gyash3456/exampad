@@ -5,7 +5,11 @@ const {
 } = require("../middlewares/authMiddleware");
 const { register } = require("../controllers/authController");
 
-const { getAll, getOne } = require("../controllers/adminController");
+const {
+  getAll,
+  getOne,
+  getLoggedInUser,
+} = require("../controllers/adminController");
 
 router.get(
   "/users",
@@ -22,6 +26,15 @@ router.get(
   ensureAuthorized(["admin"]),
   async (req, res) => {
     await getOne(req, res);
+  }
+);
+
+router.post(
+  "/loggedinuser",
+  ensureAuthenticated,
+  ensureAuthorized(["admin"]),
+  async (req, res) => {
+    await getLoggedInUser(req, res);
   }
 );
 

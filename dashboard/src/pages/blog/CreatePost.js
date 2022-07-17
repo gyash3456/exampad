@@ -16,7 +16,9 @@ import {
 } from '@mui/material';
 import { useFormik, Form, FormikProvider } from 'formik';
 import { styled } from '@mui/material/styles';
-import Quill from 'src/components/quill/Quill';
+import Editor from 'src/components/editor/Editor';
+import { useDispatch, useSelector } from 'react-redux';
+import { actions } from '../../features/blog/blogSlice';
 
 const ContentDiv = styled('div')({
   margin: '24px 0 0',
@@ -46,6 +48,9 @@ const SubmitButtonDiv = styled('div')({
 });
 
 const CreatePost = () => {
+  const dispatch = useDispatch();
+  const { loading, errorVal } = useSelector((state) => state.blog);
+
   const breadcrumbs = [
     <Link underline="hover" key="1" color="inherit" href="/">
       MUI
@@ -60,10 +65,13 @@ const CreatePost = () => {
 
   const formik = useFormik({
     initialValues: {
-      email: '',
+      title: '',
+      description: '',
+      content: '',
     },
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
+      dispatch(actions.createPostRequest(values));
     },
   });
 
@@ -88,16 +96,28 @@ const CreatePost = () => {
               <Card elevation={0} sx={{ padding: '24px' }}>
                 <div>
                   <FormControl fullWidth>
-                    <TextField label="Post Title" />
+                    <TextField
+                      name="title"
+                      label="Post Title"
+                      onChange={formik.handleChange}
+                      value={formik.values.title}
+                    />
                   </FormControl>
                   <FormControl sx={{ marginTop: '24px' }} fullWidth>
-                    <TextField rows={3} multiline label="Description" />
+                    <TextField
+                      rows={3}
+                      multiline
+                      label="Description"
+                      name="description"
+                      onChange={formik.handleChange}
+                      value={formik.values.description}
+                    />
                   </FormControl>
                   <ContentDiv>
                     <Typography>Content</Typography>
                     <div>
                       <Box>
-                        <Quill />
+                        <Editor formik={formik} />
                       </Box>
                     </div>
                   </ContentDiv>
@@ -153,7 +173,7 @@ const CreatePost = () => {
                 <Button variant="outlined" size="large" fullWidth>
                   Preview
                 </Button>
-                <Button variant="contained" size="large" sx={{ margin: '0px 0px 0px 12px' }} fullWidth>
+                <Button type="submit" variant="contained" size="large" sx={{ margin: '0px 0px 0px 12px' }} fullWidth>
                   Post
                 </Button>
               </SubmitButtonDiv>

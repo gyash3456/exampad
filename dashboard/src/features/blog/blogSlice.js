@@ -1,13 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const blogSlice = createSlice({
-  name: "blog",
+  name: 'blog',
   initialState: {
     categories: null,
     loading: false,
     errorVal: true,
   },
   reducers: {
+    createPostRequest: () => {},
+    createPostPending: () => ({ loading: true }),
+    createPostSuccess: () => ({ loading: false }),
+    createPostFailure: () => ({ loading: false, errorVal: true }),
     categoriesRequest: () => {},
     categoriesPending: () => ({ categories: null, loading: true }),
     categoriesSuccess: (state, { payload: categories }) => ({

@@ -18,7 +18,7 @@ export default function LoginForm() {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const { isLoggedIn, loading, errorVal } = useSelector((state) => state.user);
+  const { isLoggedIn, loading, errorVal } = useSelector((state) => state.auth);
 
   const [showPassword, setShowPassword] = useState(false);
 

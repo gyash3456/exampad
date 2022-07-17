@@ -17,3 +17,7 @@ exports.getRefreshToken = (user) => {
   });
   return refreshToken;
 };
+
+exports.getUserIdByToken = (token) => {
+  return jwt.verify(token, process.env.JWT_SECRET);
+};

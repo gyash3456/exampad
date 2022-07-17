@@ -13,14 +13,13 @@ const PostSchema = new Schema(
     },
     imageUrl: {
       type: String,
-      required: true,
     },
     slug: {
       type: String,
       required: true,
       unique: true,
     },
-    body: {
+    content: {
       type: String,
       required: true,
     },

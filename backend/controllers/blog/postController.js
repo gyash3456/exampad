@@ -115,7 +115,7 @@ const getOne = async (req, res) => {
   }
 };
 
-const getTopStories = async (req, res) => {
+const getTopPosts = async (req, res) => {
   try {
     let result = await Post.find({})
       .populate("category", "title")
@@ -179,6 +179,6 @@ module.exports = {
   updateOne,
   getAll,
   getOne,
-  getTopStories,
+  getTopPosts,
   getOneBySlug,
 };

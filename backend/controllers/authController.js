@@ -85,7 +85,7 @@ const login = async (data, res) => {
       };
       let result = {
         user: profile,
-        token: token,
+        accessToken: token,
       };
 
       await RefreshToken.findOneAndDelete({ user: user._id });

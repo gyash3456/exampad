@@ -3,13 +3,13 @@ import { Link as RouterLink } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { Card, Link, Container, Typography } from '@mui/material';
 // hooks
-import useResponsive from '../hooks/useResponsive';
+import useResponsive from '../../../hooks/useResponsive';
 // components
-import Page from '../components/Page';
-import Logo from '../components/Logo';
+import Page from '../../../components/Page';
+import Logo from '../../../components/Logo';
 // sections
-import { LoginForm } from '../sections/auth/login';
-import AuthSocial from '../sections/auth/AuthSocial';
+import LoginForm from './LoginForm';
+import AuthSocial from '../AuthSocial';
 
 // ----------------------------------------------------------------------
 
