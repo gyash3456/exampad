@@ -15,7 +15,7 @@ const {
   getOne,
   getOneBySlug,
   getTopPosts,
-} = require("../../controllers/blog/postController");
+} = require("../../controllers/admin/blog/postController");
 
 router.post(
   "/posts",
@@ -25,6 +25,15 @@ router.post(
   validate,
   async (req, res) => {
     await addOne(req, res);
+  }
+);
+
+router.post(
+  "/postbyslug",
+  ensureAuthenticated,
+  ensureAuthorized(["admin"]),
+  async (req, res) => {
+    await getOneBySlug(req, res);
   }
 );
 

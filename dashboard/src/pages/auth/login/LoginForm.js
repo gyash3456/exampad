@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import { useState, useEffect } from 'react';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate, useLocation } from 'react-router-dom';
 import { useFormik, Form, FormikProvider } from 'formik';
 // material
 import { Link, Stack, Checkbox, TextField, IconButton, InputAdornment, FormControlLabel } from '@mui/material';
@@ -16,9 +16,10 @@ import { actions } from '../../../features/auth/authSlice';
 
 export default function LoginForm() {
   const navigate = useNavigate();
+  const { state } = useLocation();
 
   const dispatch = useDispatch();
-  const { isLoggedIn, loading, errorVal } = useSelector((state) => state.auth);
+  const { isLoggedIn, login } = useSelector((state) => state.auth);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -42,7 +43,7 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      navigate('/admin/dashboard', { replace: true });
+      navigate(state?.path || '/admin/dashboard', { replace: true });
     }
   }, [isLoggedIn]);
 

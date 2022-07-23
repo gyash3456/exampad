@@ -25,12 +25,19 @@ const persistAppConfig = {
   storage,
   blacklist: ['accessToken'],
 };
+
+const persistBlogConfig = {
+  key: 'blog',
+  storage,
+  blacklist: ['accessToken'],
+};
 const persistedAppReducer = persistReducer(persistAppConfig, appReducer);
+const persistedBlogReducer = persistReducer(persistBlogConfig, blogReducer);
 
 const reducer = {
   app: persistedAppReducer,
   auth: authReducer,
-  blog: blogReducer,
+  blog: persistedBlogReducer,
 };
 
 export const store = configureStore({

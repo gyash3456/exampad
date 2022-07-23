@@ -9,7 +9,7 @@ const {
   getAll,
   getOne,
   getLoggedInUser,
-} = require("../controllers/adminController");
+} = require("../controllers/admin/adminController");
 
 router.get(
   "/users",

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 // routes
 import Router from './routes/routes';
 
@@ -16,7 +16,7 @@ import { actions as appActions } from './features/app/appSlice';
 
 export default function App() {
   const dispatch = useDispatch();
-  const { loading, isLoggedIn } = useSelector((state) => state.auth);
+  const { isLoggedIn } = useSelector((state) => state.auth);
   const verifyUser = useCallback(() => {
     dispatch(authActions.refreshTokenRequest());
     // call refreshToken every 5 minutes to renew the authentication token.

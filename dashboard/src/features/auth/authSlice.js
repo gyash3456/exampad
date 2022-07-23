@@ -1,39 +1,41 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { INITIAL_STATE, PENDING_STATE, SUCCESS_STATE, FAILURE_STATE } from '../constants';
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: {
     accessToken: null,
-    loading: false,
     isLoggedIn: false,
-    errorVal: false,
-    registerSuccess: false,
+    register: INITIAL_STATE,
+    login: INITIAL_STATE,
+    logout: INITIAL_STATE,
+    refreshToken: INITIAL_STATE,
   },
   reducers: {
-    registerRequest: () => {},
-    registerPending: () => ({ accessToken: null, loading: true, registerSuccess: false, isLoggedIn: false }),
+    registerRequest: () => ({ register: PENDING_STATE }),
+    registerPending: () => ({ register: PENDING_STATE }),
     registerSuccess: () => ({
-      registerSuccess: true,
+      register: SUCCESS_STATE,
     }),
     registerFailure: () => ({
-      accessToken: null,
-      loading: false,
-      isLoggedIn: false,
-      registerSuccess: false,
-      errorVal: true,
+      register: FAILURE_STATE,
     }),
-    loginRequest: () => {},
-    loginPending: () => ({ accessToken: null, loading: true, isLoggedIn: false }),
+    loginRequest: () => ({ login: PENDING_STATE }),
+    loginPending: () => ({ login: PENDING_STATE }),
     loginSuccess: (state, { payload: result }) => ({
       accessToken: result.accessToken,
-      loading: false,
       isLoggedIn: true,
-      errorVal: false,
+      login: SUCCESS_STATE,
     }),
-    loginFailure: () => ({ accessToken: null, loading: false, isLoggedIn: false, errorVal: true }),
+    loginFailure: () => ({
+      accessToken: null,
+      isLoggedIn: false,
+      login: FAILURE_STATE,
+    }),
 
-    logoutRequest: () => {},
-    logoutSuccess: () => ({ accessToken: null, loading: false, isLoggedIn: false }),
+    logoutRequest: () => ({ logout: PENDING_STATE }),
+    logoutSuccess: () => ({ accessToken: null, isLoggedIn: false, logout: SUCCESS_STATE }),
     verifyRequest: () => {},
     verifySuccess: (state, { payload: user }) => {
       return {
@@ -43,17 +45,18 @@ const authSlice = createSlice({
       };
     },
     verifyFailure: () => {},
-    refreshTokenRequest: () => {},
-    refreshTokenPending: () => ({ accessToken: null, loading: true, isLoggedIn: false }),
-    refreshTokenSuccess: (state, { payload: result }) => {
-      return {
-        accessToken: result.data.accessToken,
-        loading: false,
-        isLoggedIn: true,
-        errorVal: false,
-      };
-    },
-    refreshTokenFailure: () => ({ accessToken: null, loading: false, isLoggedIn: false }),
+    refreshTokenRequest: () => ({ refreshToken: PENDING_STATE }),
+    refreshTokenPending: () => ({ refreshToken: PENDING_STATE }),
+    refreshTokenSuccess: (state, { payload: result }) => ({
+      accessToken: result.data.accessToken,
+      isLoggedIn: true,
+      refreshToken: SUCCESS_STATE,
+    }),
+    refreshTokenFailure: () => ({
+      accessToken: null,
+      isLoggedIn: false,
+      refreshToken: FAILURE_STATE,
+    }),
   },
 });
 

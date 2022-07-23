@@ -5,21 +5,32 @@ import { actions } from './blogSlice';
 
 export const blogSagas = [
   takeLatest(actions.createPostRequest.type, createPostSaga),
+  takeLatest(actions.getPostBySlugRequest.type, getPostBySlugSaga),
   takeLatest(actions.categoriesRequest.type, categoriesSaga),
 ];
 
 function* createPostSaga({ payload }) {
-  console.log('***payload', payload);
   try {
     yield put(actions.createPostPending());
 
     const response = yield call(blogService.createPost, payload);
-    console.log('***response', response);
 
-    //yield put(actions.createPostSuccess(response));
+    yield put(actions.createPostSuccess(response.data));
   } catch (e) {
     console.log(e);
     yield put(actions.createPostFailure());
+  }
+}
+
+function* getPostBySlugSaga({ payload }) {
+  try {
+    yield put(actions.getPostBySlugPending());
+
+    const response = yield call(blogService.getPostBySlug, payload);
+    yield put(actions.getPostBySlugSuccess(response.data));
+  } catch (e) {
+    console.log(e);
+    yield put(actions.getPostBySlugFailure());
   }
 }
 

@@ -10,7 +10,7 @@ import NotFound from '../pages/Page404';
 import Products from '../pages/Products';
 import DashboardApp from '../pages/DashboardApp';
 import ProtectedRoute from './ProtectedRoute';
-import { CreatePost } from '../pages/blog';
+import { CreatePost, UpdatePost } from '../pages/blog';
 
 // ----------------------------------------------------------------------
 
@@ -25,6 +25,7 @@ export default function Router() {
         <Route exact path="/admin" element={<DashboardLayout />}>
           <Route exact path="dashboard" element={<DashboardApp />} />
           <Route exact path="blog/new" element={<CreatePost />} />
+          <Route exact path="blog/edit/:slug" element={<UpdatePost />} />
           <Route exact path="user" element={<User />} />
         </Route>
       </Route>

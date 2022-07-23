@@ -8,10 +8,9 @@ import './quill.snow.css'; // Add css for snow theme
 const Editor = (props) => {
   const { formik } = props;
 
-  const handleChange = (value) => {
-    formik.setFieldValue('content', value);
-  };
-  return <ReactQuill theme="snow" onChange={handleChange} />;
+  return (
+    <ReactQuill theme="snow" value={formik.values.content || ''} onChange={(e) => formik.setFieldValue('content', e)} />
+  );
 };
 
 export default Editor;

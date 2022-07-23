@@ -6,18 +6,21 @@ const appSlice = createSlice({
     loggedinUser: null,
     loading: false,
     errorVal: false,
+    isAppLoad: false,
   },
   reducers: {
-    loggedinUserRequest: () => {},
-    loggedinUserPending: () => ({ loggedinUser: null, loading: true }),
+    loggedinUserRequest: () => ({ isAppLoad: false }),
+    loggedinUserPending: () => ({ loggedinUser: null, loading: true, isAppLoad: false }),
     loggedinUserSuccess: (state, { payload }) => ({
       loggedinUser: payload,
       loading: true,
+      isAppLoad: true,
     }),
     loggedinUserFailure: () => ({
       loggedinUser: null,
       loading: false,
       errorVal: true,
+      isAppLoad: true,
     }),
   },
 });
