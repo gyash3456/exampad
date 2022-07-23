@@ -1,11 +1,11 @@
-import { call, delay, put, race, take, takeLatest } from "redux-saga/effects";
+import { call, delay, put, race, take, takeLatest } from 'redux-saga/effects';
 
-import authService from "./authService";
-import { actions } from "./authSlice";
+import authService from './authService';
+import { actions } from './authSlice';
 
 const LOGIN_TIMEOUT_SEC = 5;
 
-export const userSagas = [
+export const authSagas = [
   takeLatest(actions.loginRequest.type, userLoginSaga),
   takeLatest(actions.refreshTokenRequest.type, refreshUserTokenSaga),
   takeLatest(actions.logoutRequest.type, userLogoutSaga),
@@ -29,9 +29,9 @@ function* userLoginSaga({ payload }) {
     yield put(actions.loginPending());
     const response = yield call(authService.login, payload);
 
-    yield put(actions.loginSuccess(response.data.result.user));
+    yield put(actions.loginSuccess(response.data.result));
   } catch (e) {
-    console.log("Exception in userLoginSaga");
+    console.log('Exception in userLoginSaga');
     yield put(actions.loginFailure());
   }
 }
@@ -70,17 +70,17 @@ function* userLogoutSaga() {
 function* refreshUserTokenSaga({ payload }) {
   try {
     yield put(actions.refreshTokenPending());
-    const { user, timeout } = yield race({
-      user: call(authService.refreshtoken, payload),
+    const { result, timeout } = yield race({
+      result: call(authService.refreshtoken, payload),
       timeout: delay(LOGIN_TIMEOUT_SEC * 1000),
     });
     if (timeout) {
-      throw new Error("Login timeout, check your network connection.");
+      throw new Error('Login timeout, check your network connection.');
     } else {
-      yield put(actions.refreshTokenSuccess(user));
+      yield put(actions.refreshTokenSuccess(result));
     }
   } catch (e) {
-    console.log("Exception in userLoginSaga");
+    console.log('Exception in userLoginSaga');
     yield put(actions.refreshTokenFailure());
   }
 }

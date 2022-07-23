@@ -13,7 +13,7 @@ const {
   updateOne,
   getAll,
   getOne,
-} = require("../../controllers/blog/categoryController");
+} = require("../../controllers/admin/blog/categoryController");
 
 router.get("/categories", async (req, res) => {
   await getAll(req, res);

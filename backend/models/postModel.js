@@ -1,5 +1,8 @@
-const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
+const { Schema, model } = mongoose;
 const uniqueValidator = require("mongoose-unique-validator");
+var slug = require("mongoose-slug-generator");
+mongoose.plugin(slug);
 
 const PostSchema = new Schema(
   {
@@ -13,14 +16,13 @@ const PostSchema = new Schema(
     },
     imageUrl: {
       type: String,
-      required: true,
     },
     slug: {
       type: String,
-      required: true,
+      slug: "title",
       unique: true,
     },
-    body: {
+    content: {
       type: String,
       required: true,
     },
@@ -41,6 +43,13 @@ const PostSchema = new Schema(
   },
   { timestamps: true }
 );
+
+PostSchema.pre("save", function (next) {
+  if (this.title) {
+    this.slug = this.title.split(" ").join("-");
+  }
+  next();
+});
 
 PostSchema.plugin(uniqueValidator);
 module.exports = model("Post", PostSchema);

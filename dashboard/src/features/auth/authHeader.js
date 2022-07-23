@@ -1,7 +1,9 @@
-export default function authHeader(token) {
+const authHeader = (token) => {
   if (token) {
-    return { Authorization: "Bearer " + token };
+    return { Authorization: 'Bearer ' + token };
   } else {
     return {};
   }
-}
+};
+
+export default authHeader;

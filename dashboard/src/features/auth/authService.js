@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 
 const register = ({ name, email, password }) => {
-  return axios.post(process.env.REACT_APP_API_URL + "/api/register", {
+  return axios.post(process.env.REACT_APP_API_URL + '/api/register', {
     name,
     email,
     password,
@@ -9,25 +9,25 @@ const register = ({ name, email, password }) => {
 };
 const login = ({ email, password }) => {
   return axios.post(
-    process.env.REACT_APP_API_URL + "/api/login",
+    process.env.REACT_APP_API_URL + '/api/login',
     { email, password },
     {
       withCredentials: true,
-      credentials: "include",
+      credentials: 'include',
     }
   );
 };
 const logout = () => {
-  return axios.post(process.env.REACT_APP_API_URL + "/api/logout", null, {
+  return axios.post(process.env.REACT_APP_API_URL + '/api/logout', null, {
     withCredentials: true,
-    credentials: "include",
+    credentials: 'include',
   });
 };
 
 const refreshtoken = () => {
-  return axios.post(process.env.REACT_APP_API_URL + "/api/refreshtoken", null, {
+  return axios.post(process.env.REACT_APP_API_URL + '/api/refreshtoken', null, {
     withCredentials: true,
-    credentials: "include",
+    credentials: 'include',
   });
 };
 

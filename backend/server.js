@@ -97,10 +97,12 @@ function initial() {
 const adminRoutes = require("./routes/adminRoutes");
 const authRoutes = require("./routes/authRoutes");
 const categoryRoutes = require("./routes/blog/categoryRoutes");
+const blogRoutes = require("./routes/blog/blogRoutes");
 
 app.use("/api", adminRoutes);
 app.use("/api", authRoutes);
 app.use("/api", categoryRoutes);
+app.use("/api", blogRoutes);
 
 // Handle errors.
 

@@ -6,7 +6,7 @@ const validationRules = () => {
       .trim()
       .isLength({ min: 2, max: 256 })
       .withMessage("Comment must be between 2 and 256 characters long"),
-    check("body")
+    check("content")
       .trim()
       .isLength({ min: 2 })
       .withMessage("Comment must be atleast 2 characters long"),

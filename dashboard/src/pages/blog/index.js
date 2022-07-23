@@ -1,4 +1,2 @@
-import PostCreate from "./PostCreate";
-import Category from "./Category";
-
-export { PostCreate, Category };
+export { default as CreatePost } from './CreatePost';
+export { default as UpdatePost } from './UpdatePost';
